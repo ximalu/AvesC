@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aves/app_mode.dart';
 import 'package:aves/model/entry/entry.dart';
+import 'package:aves/model/entry/extensions/metadata_edition.dart';
 import 'package:aves/model/entry/extensions/props.dart';
 import 'package:aves/model/settings/enums/widget_outline.dart';
 import 'package:aves/model/settings/settings.dart';
@@ -14,6 +15,7 @@ import 'package:aves/widgets/aves_app.dart';
 import 'package:aves/widgets/common/action_mixins/feedback.dart';
 import 'package:aves/widgets/common/basic/insets.dart';
 import 'package:aves/widgets/common/extensions/build_context.dart';
+import 'package:aves/widgets/dialogs/entry_editors/edit_description_dialog.dart';
 import 'package:aves/widgets/home_widget.dart';
 import 'package:aves/widgets/viewer/controls/controller.dart';
 import 'package:aves/widgets/viewer/controls/notifications.dart';
@@ -424,7 +426,7 @@ class _EntryPageViewState extends State<EntryPageView> with TickerProviderStateM
               _onTap(alignment: alignment);
             }
           },
-          onLongPress: canGestureToOtherApps ? _startGlobalDrag : null,
+          onLongPress: () => _showLongPressMenu(context, canGestureToOtherApps),
           onDoubleTap: onDoubleTap,
           child: child!,
         );
@@ -453,6 +455,54 @@ class _EntryPageViewState extends State<EntryPageView> with TickerProviderStateM
         );
 
     await windowService.startGlobalDrag(entry.uri, entry.bestTitle, dragShadowSize, dragShadowBytes);
+  }
+
+  void _showLongPressMenu(BuildContext context, bool canGestureToOtherApps) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(AIcons.description),
+              title: const Text('编辑标题和描述'),
+              onTap: () {
+                Navigator.pop(context);
+                _editTitleDescription();
+              },
+            ),
+            if (canGestureToOtherApps)
+              ListTile(
+                leading: const Icon(AIcons.widgets),
+                title: const Text('拖动至主屏幕'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _startGlobalDrag();
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _editTitleDescription() async {
+    final initialTitle = entry.catalogMetadata?.xmpTitle ?? '';
+    final fields = await metadataFetchService.getOverlayMetadata(entry, {MetadataSyntheticField.description});
+    final initialDescription = fields.description ?? '';
+
+    if (!mounted) return;
+    final modifier = await showDialog<Map<DescriptionField, String?>>(
+      context: context,
+      builder: (context) => EditEntryTitleDescriptionDialog(
+        initialTitle: initialTitle,
+        initialDescription: initialDescription,
+      ),
+    );
+    if (modifier == null || !mounted) return;
+
+    await entry.editTitleDescription(modifier);
   }
 
   void _onFling(AxisDirection direction) {
