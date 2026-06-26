@@ -474,7 +474,7 @@ class _EntryPageViewState extends State<EntryPageView> with TickerProviderStateM
             ),
             if (canGestureToOtherApps)
               ListTile(
-                leading: const Icon(AIcons.widgets),
+                leading: const Icon(AIcons.addShortcut),
                 title: const Text('拖动至主屏幕'),
                 onTap: () {
                   Navigator.pop(context);
