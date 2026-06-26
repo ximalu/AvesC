@@ -8,7 +8,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-val packageName = "deckers.thibault.aves"
+val packageName = "ximalu.avesc"
 
 // Keys
 
@@ -37,7 +37,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "deckers.thibault.aves"
+    namespace = "ximalu.avesc"
     compileSdk = 37
     ndkVersion = flutter.ndkVersion
 

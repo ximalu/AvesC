@@ -4,7 +4,7 @@ import 'package:aves_model/aves_model.dart';
 import 'package:flutter/services.dart';
 
 class WallpaperService {
-  static const _platform = AvesMethodChannel('deckers.thibault/aves/wallpaper');
+  static const _platform = AvesMethodChannel('ximalu/avesc/wallpaper');
 
   static Future<bool> set(Uint8List bytes, WallpaperTarget target) async {
     try {

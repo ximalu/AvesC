@@ -7,8 +7,8 @@ import 'package:aves/services/common/services.dart';
 import 'package:flutter/services.dart';
 
 class IntentService {
-  static const _platform = AvesMethodChannel('deckers.thibault/aves/intent');
-  static final _stream = AvesStreamsChannel('deckers.thibault/aves/activity_result_stream');
+  static const _platform = AvesMethodChannel('ximalu/avesc/intent');
+  static final _stream = AvesStreamsChannel('ximalu/avesc/activity_result_stream');
 
   static Future<Map<String, Object?>> getIntentData() async {
     try {

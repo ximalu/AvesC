@@ -170,11 +170,11 @@ class _AvesAppState extends State<AvesApp> with WidgetsBindingObserver {
   // observers are not registered when using the same list object with different items
   // the list itself needs to be reassigned
   List<NavigatorObserver> _navigatorObservers = [AvesApp.pageRouteObserver];
-  final EventChannel _mediaStoreChangeChannel = const OptionalEventChannel('deckers.thibault/aves/media_store_change');
-  final EventChannel _newIntentChannel = const OptionalEventChannel('deckers.thibault/aves/new_intent_stream');
-  final EventChannel _analysisCompletionChannel = const OptionalEventChannel('deckers.thibault/aves/analysis_events');
-  final EventChannel _errorChannel = const OptionalEventChannel('deckers.thibault/aves/error');
-  final EventChannel _platformWindowChangeChannel = const OptionalEventChannel('deckers.thibault/aves/window_change');
+  final EventChannel _mediaStoreChangeChannel = const OptionalEventChannel('ximalu/avesc/media_store_change');
+  final EventChannel _newIntentChannel = const OptionalEventChannel('ximalu/avesc/new_intent_stream');
+  final EventChannel _analysisCompletionChannel = const OptionalEventChannel('ximalu/avesc/analysis_events');
+  final EventChannel _errorChannel = const OptionalEventChannel('ximalu/avesc/error');
+  final EventChannel _platformWindowChangeChannel = const OptionalEventChannel('ximalu/avesc/window_change');
 
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: 'app-navigator');
   static ScreenBrightness? _screenBrightness;

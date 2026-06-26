@@ -28,8 +28,8 @@ void main() {
       await copyContent(screenshotsSourceDir, screenshotsTargetDirAdb);
       await Future.forEach<String>(
         [
-          'deckers.thibault.aves.debug',
-          'deckers.thibault.aves.profile',
+          'ximalu.avesc.debug',
+          'ximalu.avesc.profile',
         ],
         (package) => grantPermissions(package, [
           'android.permission.READ_EXTERNAL_STORAGE',

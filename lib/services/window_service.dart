@@ -47,7 +47,7 @@ abstract class WindowService {
 }
 
 class PlatformWindowService implements WindowService {
-  static const _platform = AvesMethodChannel('deckers.thibault/aves/window');
+  static const _platform = AvesMethodChannel('ximalu/avesc/window');
 
   bool? _isCutoutAware, _supportsHdr, _supportsWideGamut;
 

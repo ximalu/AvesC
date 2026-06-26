@@ -1,6 +1,6 @@
-name: aves
-description: A visual media gallery and metadata explorer app.
-repository: https://github.com/deckerst/aves
+name: avesc
+description: AvesC - A visual media gallery and metadata explorer app (Aves custom).
+repository: https://github.com/ximalu/AvesC
 publish_to: none
 
 # version bump checklist:
