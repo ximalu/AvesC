@@ -50,7 +50,7 @@ jobs:
 
       - name: Build APK
         run: |
-          ./flutterw build apk --release
+          ./flutterw build apk --release --flavor play -t lib/main_play.dart
         env:
           AVES_STORE_FILE: ${{ github.workspace }}/key.jks
           AVES_STORE_PASSWORD: ${{ secrets.AVESC_STORE_PASSWORD }}
