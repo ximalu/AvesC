@@ -1,0 +1,65 @@
+name: Build AvesC APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        default: 'release'
+        type: choice
+        options:
+          - release
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - '**.md'
+      - 'assets/**'
+      - 'fastlane/**'
+      - 'whatsnew/**'
+
+permissions: read-all
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.AVESC_KEYSTORE_B64 }}" | base64 -d > ${{ github.workspace }}/key.jks
+
+      - name: Get Flutter packages
+        run: ./flutterw pub get
+
+      - name: Generate localizations
+        run: ./flutterw gen-l10n
+
+      - name: Build APK
+        run: |
+          ./flutterw build apk --release
+        env:
+          AVES_STORE_FILE: ${{ github.workspace }}/key.jks
+          AVES_STORE_PASSWORD: ${{ secrets.AVESC_STORE_PASSWORD }}
+          AVES_KEY_ALIAS: ${{ secrets.AVESC_KEY_ALIAS }}
+          AVES_KEY_PASSWORD: ${{ secrets.AVESC_KEY_PASSWORD }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: avesc-apk
+          path: build/app/outputs/flutter-apk/*.apk
+          if-no-files-found: error
